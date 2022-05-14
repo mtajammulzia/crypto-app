@@ -1,3 +1,4 @@
+import { getValue } from "@testing-library/user-event/dist/utils";
 import { FC } from "react";
 
 export interface AppType {
@@ -59,3 +60,7 @@ export type OnClickHanlder = SimpleFunction | PromiseFunction;
 export type SimpleFunction = () => void;
 
 export type PromiseFunction = () => Promise<void>;
+
+export interface ILooseObject<T> {
+  [key: string]: T;
+}

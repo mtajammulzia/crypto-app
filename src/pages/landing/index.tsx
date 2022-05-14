@@ -1,19 +1,30 @@
 import { UserContext } from "auth/contexts";
 import { Header } from "components";
+import { ExchangeRateComponent } from "components/dashboard";
+import { ShouldRender } from "hooks";
 import { useContext } from "react";
 import { FC } from "react";
 import * as Styled from "./styles";
 
 export const Landing: FC = () => {
   const { userState } = useContext(UserContext);
-  const { isLoggedIn, isLoading, address } = userState;
+  const { isLoggedIn } = userState;
   return (
     <Styled.LandingWrapper>
       <Header />
-      <Styled.ContentSection>
-        <h2>Welcome</h2>
-        {isLoggedIn && <h3>{address}</h3>}
-      </Styled.ContentSection>
+      <ShouldRender condition={isLoggedIn}>
+        <Styled.ContentSection>
+          <Styled.PairRatesWidget>Widget1</Styled.PairRatesWidget>
+          <Styled.PairGraphWidget>
+            <ExchangeRateComponent />
+          </Styled.PairGraphWidget>
+          <Styled.Wid3>Widget3</Styled.Wid3>
+          <Styled.Wid4>Widget4</Styled.Wid4>
+        </Styled.ContentSection>
+      </ShouldRender>
+      <ShouldRender condition={!isLoggedIn}>
+        <Styled.ContentSection></Styled.ContentSection>
+      </ShouldRender>
     </Styled.LandingWrapper>
   );
 };
