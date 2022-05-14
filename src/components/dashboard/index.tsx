@@ -1,15 +1,17 @@
-import { FC } from 'react';
+import { FC } from "react";
 import * as Styled from "./styles";
 import React, { useState, useEffect, useRef } from "react";
 import { Board } from "./board";
 import { formatData } from "./hook";
+import { ILineChart } from "helpers/types";
+import { Chart } from "chart.js";
 
 export const Dashboard: FC = () => {
   const [currencies, setcurrencies] = useState<any>([]);
   const [pair, setpair] = useState("");
   const [price, setprice] = useState("0.00");
-  const [pastData, setpastData] = useState({});
-  const ws = useRef(null);
+  const [pastData, setpastData] = useState<ILineChart>();
+  const ws = useRef<WebSocket>();
 
   let first = useRef(false);
   const url = "https://api.pro.coinbase.com";
@@ -17,12 +19,12 @@ export const Dashboard: FC = () => {
   useEffect(() => {
     ws.current = new WebSocket("wss://ws-feed.pro.coinbase.com");
 
-    let pairs:any[];
+    let pairs: any[];
     const apiCall = async () => {
       await fetch(url + "/products")
         .then((res) => res.json())
         .then((data) => (pairs = data));
-      
+
       let filtered = pairs.filter((pair) => {
         if (pair.quote_currency === "USD") {
           return pair;
@@ -39,7 +41,6 @@ export const Dashboard: FC = () => {
         return 0;
       });
 
-      
       setcurrencies(filtered);
 
       first.current = true;
@@ -50,53 +51,54 @@ export const Dashboard: FC = () => {
 
   useEffect(() => {
     if (!first.current) {
-      
       return;
     }
 
-    
     let msg = {
       type: "subscribe",
       product_ids: [pair],
-      channels: ["ticker"]
+      channels: ["ticker"],
     };
     let jsonMsg = JSON.stringify(msg);
-    ws.current.send(jsonMsg);
+    ws.current?.send(jsonMsg);
 
     let historicalDataURL = `${url}/products/${pair}/candles?granularity=86400`;
     const fetchHistoricalData = async (): Promise<void> => {
-      let dataArr:any[];
-      await fetch(historicalDataURL)
-        .then((res) => res.json())
-        .then((data) => (dataArr = data));
-        
-      let formattedData = formatData(dataArr);
-      setpastData(formattedData);
+      let dataArr: any[];
+      try {
+        const response = await fetch(historicalDataURL);
+        dataArr = await response.json();
+        let formattedData = formatData(dataArr);
+        setpastData(formattedData);
+      } catch (error) {
+        console.log(error);
+      }
     };
 
     fetchHistoricalData();
+    if (ws.current) {
+      ws.current.onmessage = (e) => {
+        let data = JSON.parse(e.data);
+        if (data.type !== "ticker") {
+          return;
+        }
 
-    ws.current.onmessage = (e) => {
-      let data = JSON.parse(e.data);
-      if (data.type !== "ticker") {
-        return;
-      }
-
-      if (data.product_id === pair) {
-        setprice(data.price);
-      }
-    };
+        if (data.product_id === pair) {
+          setprice(data.price);
+        }
+      };
+    }
   }, [pair]);
 
-  const handleSelect = (e) => {
+  const handleSelect = (e: any) => {
     let unsubMsg = {
       type: "unsubscribe",
       product_ids: [pair],
-      channels: ["ticker"]
+      channels: ["ticker"],
     };
     let unsub = JSON.stringify(unsubMsg);
 
-    ws.current.send(unsub);
+    ws.current?.send(unsub);
 
     setpair(e.target.value);
   };
@@ -104,7 +106,7 @@ export const Dashboard: FC = () => {
     <div className="container">
       {
         <select name="currency" value={pair} onChange={handleSelect}>
-          {currencies.map((cur, idx) => {
+          {currencies.map((cur: any, idx: any) => {
             return (
               <option key={idx} value={cur.id}>
                 {cur.display_name}
@@ -113,9 +115,7 @@ export const Dashboard: FC = () => {
           })}
         </select>
       }
-      <Board price={price} data={pastData} />
+      {pastData && <Board price={price} data={pastData} />}
     </div>
   );
-}
-
-
+};

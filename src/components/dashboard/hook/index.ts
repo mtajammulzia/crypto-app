@@ -1,48 +1,26 @@
-export const formatData = (data: any[]) => {
-    interface datainterface {
-        labels: any[],
-        datasets: [
-          {
-            label: string,
-            data: any[],
-            backgroundColor: string,
-            borderColor: string,
-            fill: boolean
-          }
-        ]  
-    }
-    let finalData: datainterface = {
-      labels: [],
-      datasets: [
-        {
-          label: "Price",
-          data: [],
-          backgroundColor: "rgb(255, 99, 132, 0.8)",
-          borderColor: "rgba(255, 99, 132, 0.2)",
-          fill: false
-        }
-      ]
-    };
-  
-    let dates = data.map((val: number[] ) => {
-      const ts = val[0];
-      let date = new Date(ts * 1000);
-      let day = date.getDate();
-      let month = date.getMonth() + 1;
-      let year = date.getFullYear();
-  
-      let final = `${month}-${day}-${year}`;
-      return final;
-    });
-  
-    let priceArr = data.map((val) => {
-      return val[4];
-    });
-  
-    priceArr.reverse();
-    dates.reverse();
-    finalData.labels = dates;
-    finalData.datasets[0].data = priceArr;
+import { ILineChart, ILineChartDatasets } from "helpers/types";
 
-    return finalData;
+export const formatData = (data: any[]): ILineChart => {
+  const labels = data.map((val: number[]) => {
+    const ts = val[0];
+    const date = new Date(ts * 1000);
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    return `${month}-${day}-${year}`;
+  });
+  const newData: Array<number> = data.map((val) => val[4]);
+  const datasets: Array<ILineChartDatasets> = [
+    {
+      label: "Price",
+      data: newData,
+      backgroundColor: "rgb(255, 99, 132, 0.8)",
+      borderColor: "rgba(255, 99, 132, 0.2)",
+      fill: false,
+    },
+  ];
+  return {
+    labels,
+    datasets,
   };
+};
