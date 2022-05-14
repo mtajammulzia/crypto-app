@@ -5,6 +5,8 @@ export interface ILineChartDatasets {
   borderColor?: string;
   backgroundColor?: string;
   tension?: number;
+  strokeColor?: string;
+  pointRadius?: number;
 }
 
 export interface ILineChart {

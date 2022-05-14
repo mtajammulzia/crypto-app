@@ -1,16 +1,17 @@
-import { FC } from "react";
-import * as Styled from "./styles";
-import React, { useState, useEffect, useRef } from "react";
-import { Board } from "./board";
-import { formatData } from "./hook";
+import { FC, useState, useEffect, useRef } from "react";
+import { PairChart } from "./board";
+import { formatData } from "./utils";
 import { ILineChart } from "helpers/types";
-import { Chart } from "chart.js";
+import { GRANULARITIES, TIMEFRAMES, EMPTYCHART } from "helpers/constants";
+import { ShouldRender } from "hooks";
+import * as Styled from "./styles";
 
-export const Dashboard: FC = () => {
+export const ExchangeRateComponent: FC = () => {
   const [currencies, setcurrencies] = useState<any>([]);
   const [pair, setpair] = useState("");
   const [price, setprice] = useState("0.00");
   const [pastData, setpastData] = useState<ILineChart>();
+  const [timeFrame, settimeFrame] = useState(TIMEFRAMES[0]);
   const ws = useRef<WebSocket>();
 
   let first = useRef(false);
@@ -18,31 +19,29 @@ export const Dashboard: FC = () => {
 
   useEffect(() => {
     ws.current = new WebSocket("wss://ws-feed.pro.coinbase.com");
-
     let pairs: any[];
+
     const apiCall = async () => {
       await fetch(url + "/products")
         .then((res) => res.json())
         .then((data) => (pairs = data));
 
-      let filtered = pairs.filter((pair) => {
-        if (pair.quote_currency === "USD") {
-          return pair;
-        }
-      });
-
-      filtered = filtered.sort((a, b) => {
-        if (a.base_currency < b.base_currency) {
-          return -1;
-        }
-        if (a.base_currency > b.base_currency) {
-          return 1;
-        }
-        return 0;
-      });
-
+      const filtered = pairs
+        .filter((pair) => {
+          if (pair.quote_currency === "USD") {
+            return pair;
+          }
+        })
+        .sort((a, b) => {
+          if (a.base_currency < b.base_currency) {
+            return -1;
+          }
+          if (a.base_currency > b.base_currency) {
+            return 1;
+          }
+          return 0;
+        });
       setcurrencies(filtered);
-
       first.current = true;
     };
 
@@ -62,13 +61,14 @@ export const Dashboard: FC = () => {
     let jsonMsg = JSON.stringify(msg);
     ws.current?.send(jsonMsg);
 
-    let historicalDataURL = `${url}/products/${pair}/candles?granularity=86400`;
+    let historicalDataURL = `${url}/products/${pair}/candles?granularity=${GRANULARITIES[timeFrame]}`;
+
     const fetchHistoricalData = async (): Promise<void> => {
-      let dataArr: any[];
       try {
         const response = await fetch(historicalDataURL);
-        dataArr = await response.json();
-        let formattedData = formatData(dataArr);
+        const dataArr = await response.json();
+        //dataArr [timestamp, low, high, open, close]
+        let formattedData = formatData(dataArr, timeFrame);
         setpastData(formattedData);
       } catch (error) {
         console.log(error);
@@ -76,36 +76,42 @@ export const Dashboard: FC = () => {
     };
 
     fetchHistoricalData();
+
     if (ws.current) {
       ws.current.onmessage = (e) => {
-        let data = JSON.parse(e.data);
-        if (data.type !== "ticker") {
-          return;
-        }
-
-        if (data.product_id === pair) {
-          setprice(data.price);
-        }
+        const data = JSON.parse(e.data);
+        if (data.type !== "ticker") return;
+        if (data.product_id === pair) setprice(data.price);
       };
     }
-  }, [pair]);
+  }, [pair, timeFrame]);
 
-  const handleSelect = (e: any) => {
-    let unsubMsg = {
+  const handlePairSelect = (e: any) => {
+    const unsubMsg = {
       type: "unsubscribe",
       product_ids: [pair],
       channels: ["ticker"],
     };
-    let unsub = JSON.stringify(unsubMsg);
-
+    const unsub = JSON.stringify(unsubMsg);
     ws.current?.send(unsub);
-
     setpair(e.target.value);
   };
+
+  const handleTimeSelect = (e: any) => {
+    settimeFrame(e.target.value);
+  };
+
   return (
-    <div className="container">
-      {
-        <select name="currency" value={pair} onChange={handleSelect}>
+    <Styled.ExchangeChartWrapper className="container">
+      <Styled.Interface>
+        <Styled.PairDisplay>
+          Current Pair: {pair ? pair : "Select One"}
+        </Styled.PairDisplay>
+        <Styled.SelectElement
+          name="currency"
+          value={pair}
+          onChange={handlePairSelect}
+        >
           {currencies.map((cur: any, idx: any) => {
             return (
               <option key={idx} value={cur.id}>
@@ -113,9 +119,28 @@ export const Dashboard: FC = () => {
               </option>
             );
           })}
-        </select>
-      }
-      {pastData && <Board price={price} data={pastData} />}
-    </div>
+        </Styled.SelectElement>
+        <Styled.SelectElement
+          name="timeFrame"
+          value={timeFrame}
+          onChange={handleTimeSelect}
+        >
+          {TIMEFRAMES.map((timeFrame, idx) => {
+            return (
+              <option key={idx} value={timeFrame}>
+                {timeFrame}
+              </option>
+            );
+          })}
+        </Styled.SelectElement>
+      </Styled.Interface>
+      <Styled.LineBreak />
+      <ShouldRender condition={!!pastData}>
+        {pastData && <PairChart price={price} data={pastData} />}
+      </ShouldRender>
+      <ShouldRender condition={!!!pastData}>
+        <PairChart data={EMPTYCHART} />
+      </ShouldRender>
+    </Styled.ExchangeChartWrapper>
   );
 };
