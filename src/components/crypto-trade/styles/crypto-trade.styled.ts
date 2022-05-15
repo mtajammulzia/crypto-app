@@ -17,10 +17,13 @@ export const PairHeading = styled.h2`
 export const Trades = styled.div`
   width: 100%;
   min-height: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 `;
 
 export const SingleTradeWrapper = styled.div`
-  color: black;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -28,15 +31,21 @@ export const SingleTradeWrapper = styled.div`
   width: 100%;
 
   &:not(:last-child) {
-    border-bottom: 1px gray solid;
+    border-bottom: 1px rgba(255, 255, 255, 0.2) solid;
   }
 
   &.buy {
     background-color: rgba(0, 255, 0, 0.2);
+    & span {
+      color: rgba(0, 255, 0, 0.7);
+    }
   }
 
   &.sell {
     background-color: rgba(255, 0, 0, 0.2);
+    & span {
+      color: var(--secondaryColor);
+    }
   }
 `;
 

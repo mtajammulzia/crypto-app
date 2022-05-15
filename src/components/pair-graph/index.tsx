@@ -3,16 +3,17 @@ import { PairChart } from "./board";
 import { formatData } from "./utils";
 import { ILineChart } from "helpers/types";
 import { GRANULARITIES, TIMEFRAMES, EMPTYCHART } from "helpers/constants";
-import { ShouldRender, usePair } from "hooks";
+import { ShouldRender, useCurrencies, usePair } from "hooks";
 import * as Styled from "./styles";
 
 export const PairGraph: FC = () => {
-  const [currencies, setcurrencies] = useState<any>([]);
+  const [curr, setcurr] = useState<any>([]);
   const [pair, setpair] = useState("");
   const [price, setprice] = useState("0.00");
   const [pastData, setpastData] = useState<ILineChart>();
   const [timeFrame, settimeFrame] = useState(TIMEFRAMES[0]);
   const { setCurrentPair } = usePair();
+  const { setCurrencies } = useCurrencies();
   const ws = useRef<WebSocket>();
 
   let first = useRef(false);
@@ -42,7 +43,8 @@ export const PairGraph: FC = () => {
           }
           return 0;
         });
-      setcurrencies(filtered);
+      setcurr(filtered);
+      setCurrencies(filtered.map((item) => item.base_currency));
       first.current = true;
     };
 
@@ -114,7 +116,7 @@ export const PairGraph: FC = () => {
           value={pair}
           onChange={handlePairSelect}
         >
-          {currencies.map((cur: any, idx: any) => {
+          {curr.map((cur: any, idx: any) => {
             return (
               <option key={idx} value={cur.id}>
                 {cur.display_name}

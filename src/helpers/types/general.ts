@@ -69,3 +69,13 @@ export interface IPairContext {
   currentPair: string;
   setCurrentPair: Dispatch<SetStateAction<string>>;
 }
+
+export interface ICurrenciesContext {
+  currencies: Array<String>;
+  setCurrencies: Dispatch<SetStateAction<Array<string>>>;
+}
+
+export interface ICurrencyPrice {
+  currency: String;
+  price: Number | String;
+}

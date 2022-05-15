@@ -12,15 +12,13 @@ const App: FC = () => {
       <UserProvider>
         <ToastProvider>
           <Toast />
-          <PairProvider>
-            <Web3Provider>
-              <AuthProvider>
-                <BrowserRouter>
-                  <AppRouter />
-                </BrowserRouter>
-              </AuthProvider>
-            </Web3Provider>
-          </PairProvider>
+          <Web3Provider>
+            <AuthProvider>
+              <BrowserRouter>
+                <AppRouter />
+              </BrowserRouter>
+            </AuthProvider>
+          </Web3Provider>
         </ToastProvider>
       </UserProvider>
     </div>
