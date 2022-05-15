@@ -1,7 +1,8 @@
 import { FC, useEffect, useRef, useState } from "react";
-import { useCurrencies } from "hooks";
+import { ShouldRender, useCurrencies } from "hooks";
 import { ICurrencyPrice } from "helpers/types";
 import { CryptoRate } from "./crypto-rate";
+import { Loader } from "components/loader";
 import * as Styled from "./styles";
 
 export const CryptoRates: FC = () => {
@@ -9,10 +10,13 @@ export const CryptoRates: FC = () => {
   const [currencyPrices, setCurrencyPrices] = useState<Array<ICurrencyPrice>>(
     []
   );
+  const [loading, setLoading] = useState(false);
+  const firstRender = useRef(true);
   const currentPointer = useRef(0);
   const maxPointer = currencies.length - 5 > 0 ? currencies.length - 5 : 0;
 
   useEffect(() => {
+    if (firstRender.current) setLoading(true);
     const timer = setTimeout(async () => {
       if (currentPointer.current + 5 < maxPointer) {
         const clippedCurrencies = currencies.slice(
@@ -20,18 +24,21 @@ export const CryptoRates: FC = () => {
           currentPointer.current + 5
         );
         const prices = await fetchBatchPrice(clippedCurrencies);
-        const newCurrencyPrices = clippedCurrencies.map((item, index) => {
+        const newCurrencyPrices = clippedCurrencies.map((_, index) => {
           const currencyPrice: ICurrencyPrice = {
             currency: clippedCurrencies[index],
             price: prices[index],
           };
           return currencyPrice;
         });
+        setLoading(false);
+        firstRender.current = false;
         setCurrencyPrices(newCurrencyPrices);
         currentPointer.current++;
+      } else {
+        currentPointer.current = 0;
       }
-    }, 3000);
-
+    }, 2000);
     return () => clearTimeout(timer);
   }, [currencies, currencyPrices]);
 
@@ -60,6 +67,11 @@ export const CryptoRates: FC = () => {
   return (
     <Styled.CryptoRatesWrapper>
       <Styled.CryptoRateHeading>Live Currency Prices</Styled.CryptoRateHeading>
+      <ShouldRender condition={loading}>
+        <Styled.LoaderWrapper>
+          <Loader />
+        </Styled.LoaderWrapper>
+      </ShouldRender>
       {currencyPrices.map((item, index) => {
         const { currency, price } = item;
         return <CryptoRate key={index} currency={currency} price={price} />;

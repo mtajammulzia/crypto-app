@@ -27,6 +27,14 @@ export const CryptoRateWrapper = styled.div`
   }
 `;
 
+export const LoaderWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+`;
+
 export const DescriptionSpan = styled.span`
   display: flex;
   justify-content: space-between;
