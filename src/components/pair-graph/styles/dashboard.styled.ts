@@ -49,6 +49,7 @@ export const SelectElement = styled.select`
 export const PairDisplay = styled.h2`
   min-width: 400px;
   max-width: 400px;
+  letter-spacing: 1px;
 `;
 
 export const BoardWrapper = styled.div`

@@ -1,4 +1,5 @@
 import { ILineChart, ILineChartDatasets } from "helpers/types";
+import { padZeros } from "helpers/utils";
 
 export const formatData = (data: any[], timeFrame: string): ILineChart => {
   const labels = data.map((val: number[]) => {
@@ -28,12 +29,4 @@ export const formatData = (data: any[], timeFrame: string): ILineChart => {
     labels: labels.reverse(),
     datasets,
   };
-};
-
-const padZeros = (
-  item: number | string,
-  padStr: string = "0",
-  maxLength: number = 2
-) => {
-  return String(item).padStart(maxLength, padStr);
 };

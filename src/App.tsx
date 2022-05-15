@@ -1,10 +1,10 @@
 import { FC } from "react";
 import { BrowserRouter } from "react-router-dom";
-import { UserProvider, AuthProvider } from "auth/providers";
-import { ToastProvider, Web3Provider } from "store/providers";
 import { AppRouter } from "router";
-import "./App.css";
 import { Toast } from "components";
+import { UserProvider, AuthProvider } from "auth/providers";
+import { ToastProvider, Web3Provider, PairProvider } from "store/providers";
+import "./App.css";
 
 const App: FC = () => {
   return (

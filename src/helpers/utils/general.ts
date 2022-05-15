@@ -97,3 +97,11 @@ export const getShortenedAddress = (address: string) => {
     address.substring(0, 7) + "..." + address.substring(address.length - 5);
   return shortenedAddress;
 };
+
+export const padZeros = (
+  item: number | string,
+  padStr: string = "0",
+  maxLength: number = 2
+) => {
+  return String(item).padStart(maxLength, padStr);
+};

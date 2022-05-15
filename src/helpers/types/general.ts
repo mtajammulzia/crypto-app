@@ -1,5 +1,5 @@
 import { getValue } from "@testing-library/user-event/dist/utils";
-import { FC } from "react";
+import { Dispatch, FC, SetStateAction } from "react";
 
 export interface AppType {
   subdomain: string;
@@ -63,4 +63,19 @@ export type PromiseFunction = () => Promise<void>;
 
 export interface ILooseObject<T> {
   [key: string]: T;
+}
+
+export interface IPairContext {
+  currentPair: string;
+  setCurrentPair: Dispatch<SetStateAction<string>>;
+}
+
+export interface ICurrenciesContext {
+  currencies: Array<String>;
+  setCurrencies: Dispatch<SetStateAction<Array<string>>>;
+}
+
+export interface ICurrencyPrice {
+  currency: String;
+  price: Number | String;
 }
