@@ -16,12 +16,12 @@ export const ContentSection = styled.div`
 
 export const PairRatesWidget = styled.div`
   grid-area: pair_rates;
-  background-color: pink;
+  /* background-color: pink;
   color: black;
   font-size: 32px;
   font-weight: 1000;
   display: grid;
-  align-content: center;
+  align-content: center; */
 `;
 
 export const PairGraphWidget = styled.div`

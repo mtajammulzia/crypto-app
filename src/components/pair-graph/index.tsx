@@ -3,15 +3,16 @@ import { PairChart } from "./board";
 import { formatData } from "./utils";
 import { ILineChart } from "helpers/types";
 import { GRANULARITIES, TIMEFRAMES, EMPTYCHART } from "helpers/constants";
-import { ShouldRender } from "hooks";
+import { ShouldRender, usePair } from "hooks";
 import * as Styled from "./styles";
 
-export const ExchangeRateComponent: FC = () => {
+export const PairGraph: FC = () => {
   const [currencies, setcurrencies] = useState<any>([]);
   const [pair, setpair] = useState("");
   const [price, setprice] = useState("0.00");
   const [pastData, setpastData] = useState<ILineChart>();
   const [timeFrame, settimeFrame] = useState(TIMEFRAMES[0]);
+  const { setCurrentPair } = usePair();
   const ws = useRef<WebSocket>();
 
   let first = useRef(false);
@@ -95,6 +96,7 @@ export const ExchangeRateComponent: FC = () => {
     const unsub = JSON.stringify(unsubMsg);
     ws.current?.send(unsub);
     setpair(e.target.value);
+    setCurrentPair(e.target.value);
   };
 
   const handleTimeSelect = (e: any) => {
