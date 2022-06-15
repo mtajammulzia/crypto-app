@@ -2,8 +2,10 @@ import { FC, useEffect, useState } from "react";
 import { getAccountAssets } from "modal/ethapi";
 import { IAssetData } from "modal/helpers";
 import { ShouldRender, useProfile, useWeb3 } from "hooks";
-import * as Styled from "./styles";
 import { Loader } from "components";
+import { formatEther } from "ethers/lib/utils";
+import { BigNumber } from "ethers";
+import * as Styled from "./styles";
 
 export const UserAssets: FC = () => {
   const { userState } = useProfile();
@@ -64,9 +66,13 @@ export const UserAssets: FC = () => {
 
 const UserAsset: FC<IAssetData> = (props) => {
   const { symbol, name, decimals, contractAddress, balance } = props;
+
+  const bigN = BigNumber.from(balance);
+  const formatted = formatEther(bigN);
+
   return (
     <Styled.AssetWrapper>
-      {name}: {balance}
+      {name}: {formatted}
     </Styled.AssetWrapper>
   );
 };
