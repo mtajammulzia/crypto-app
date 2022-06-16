@@ -2,7 +2,7 @@ import { IProviderInfo } from "../../helpers";
 
 // import Web3DefaultLogo from "../logos/web3-default.svg";
 import MetaMaskLogo from "../logos/metamask.svg";
-// import CoinbaseLogo from "../logos/coinbase.svg";
+import CoinbaseLogo from "../logos/coinbase.svg";
 
 export const injecteds: Array<IProviderInfo> = [
   // {
@@ -19,13 +19,13 @@ export const injecteds: Array<IProviderInfo> = [
     type: "injected",
     check: "isMetaMask",
   },
-  // {
-  //   id: "injected",
-  //   name: "Coinbase",
-  //   logo: CoinbaseLogo,
-  //   type: "injected",
-  //   check: "isCoinbaseWallet",
-  // },
+  {
+    id: "injected",
+    name: "Coinbase",
+    logo: CoinbaseLogo,
+    type: "injected",
+    check: "isCoinbaseWallet",
+  },
 ];
 
 // export const FALLBACK: IProviderInfo = {
