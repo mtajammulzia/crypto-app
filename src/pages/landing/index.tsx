@@ -5,6 +5,8 @@ import {
   CryptoTrade,
   CryptoRates,
   UserAssets,
+  BackgroundOne,
+  BackgroundTwo,
 } from "components";
 import { ShouldRender, useProfile } from "hooks";
 import { CurrenciesProvider, PairProvider } from "store/providers";
@@ -18,6 +20,10 @@ export const Landing: FC = () => {
     <Styled.LandingWrapper>
       <CurrenciesProvider>
         <PairProvider>
+          <ShouldRender condition={!isLoggedIn}>
+            {/* <BackgroundTwo /> */}
+            <BackgroundOne />
+          </ShouldRender>
           <Header />
           <ShouldRender condition={isLoggedIn}>
             <Styled.ContentSection>

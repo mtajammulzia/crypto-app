@@ -9299,6 +9299,14 @@ react-transition-group@^4.4.2:
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
 
+react-tsparticles@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/react-tsparticles/-/react-tsparticles-2.0.6.tgz#1049db562315fe5aea276e2918fe0624d3e935d6"
+  integrity sha512-+Ml33aZ5mIYUqbUYKnqF3tkEQIUGD/80NtnapNOda0WXot9d+7jHqNrEFdqX5ghZALbsF3DRvgcDmaBM306Lfg==
+  dependencies:
+    fast-deep-equal "^3.1.3"
+    tsparticles-engine "^2.0.6"
+
 react@^17.0.2:
   version "17.0.2"
   resolved "https://registry.npmjs.org/react/-/react-17.0.2.tgz"
@@ -10528,6 +10536,82 @@ tslib@^2.0.0, tslib@^2.0.3:
   version "2.3.1"
   resolved "https://registry.npmjs.org/tslib/-/tslib-2.3.1.tgz"
   integrity sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==
+
+tsparticles-engine@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/tsparticles-engine/-/tsparticles-engine-2.0.6.tgz#27e85d8d014a2d9435ffc9a2c7efd570baf6dc64"
+  integrity sha512-qsAMp68No1ncbFQbyjILrVtS9LeNTtBmxPa91COvHq4iLELReUjVxXTWfLWi0+xczTbdpNPRPx92r0V3xlqeHw==
+
+tsparticles-move-base@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/tsparticles-move-base/-/tsparticles-move-base-2.0.6.tgz#b044a9920177fa48521a9cf355c81a927b0f930b"
+  integrity sha512-ZRmUKOWzMsYIZ/TXA1KO4+MfRXZPNBpVPJw2ivAAHd2pefqMyHqqikbFj72fol5uQCeZt4yF4c3pychKGn2MHg==
+  dependencies:
+    tsparticles-engine "^2.0.6"
+
+tsparticles-path-curves@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/tsparticles-path-curves/-/tsparticles-path-curves-2.0.6.tgz#0bfcca718018cdfc0bd0c0409ea695010a96ea5d"
+  integrity sha512-eBmdC8S2HulWpEYVf01ywsYLrY3WcutGLhoZl4zl7AxDuHLn63BGDPyfeyuJsrcq8zN6G2tHGFC0MHOGSjHvDg==
+  dependencies:
+    tsparticles-engine "^2.0.6"
+
+tsparticles-plugin-emitters@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/tsparticles-plugin-emitters/-/tsparticles-plugin-emitters-2.0.6.tgz#e5501229f6f75c14a06dcf2d9457e69ca96ae151"
+  integrity sha512-3hU/AU1/2vXmqY9y1amd5+YAWbhoeqKNtdmItNVHsh8tTF6PqVl2CM4b5FcLgI835BlRPKWly0pZ7iU3jsQLdg==
+  dependencies:
+    tsparticles-engine "^2.0.6"
+
+tsparticles-preset-sea-anemone@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/tsparticles-preset-sea-anemone/-/tsparticles-preset-sea-anemone-2.0.6.tgz#e3668f845392a226093901b44dae14340f1d1b37"
+  integrity sha512-+nJ27cnADRARemb2bo9vGRG19wWiCk94kZMiJK5a7VdoPwOY3sHYWv3qJdQl+DHKAhJ5aKjSgT6W0LkICyyT3Q==
+  dependencies:
+    tsparticles-engine "^2.0.6"
+    tsparticles-move-base "^2.0.6"
+    tsparticles-path-curves "^2.0.6"
+    tsparticles-plugin-emitters "^2.0.6"
+    tsparticles-shape-circle "^2.0.6"
+    tsparticles-updater-color "^2.0.6"
+    tsparticles-updater-opacity "^2.0.6"
+    tsparticles-updater-out-modes "^2.0.6"
+    tsparticles-updater-size "^2.0.6"
+
+tsparticles-shape-circle@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/tsparticles-shape-circle/-/tsparticles-shape-circle-2.0.6.tgz#971dc19fdc36d0136389f36f0f911a2779eaca4b"
+  integrity sha512-6DR1y0CcvOwekUGa5EgOKrRXf9PWXZEH8/c46bdqVDbdS7c5OXtmydnHApgNTkvpDAXNqNew8JOMeqM4mzKmTg==
+  dependencies:
+    tsparticles-engine "^2.0.6"
+
+tsparticles-updater-color@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/tsparticles-updater-color/-/tsparticles-updater-color-2.0.6.tgz#3d17bdb6596d945ade708761e9889ae4db339f68"
+  integrity sha512-Hj1DWDfMu2r3i6oNTGUBWmzE7RaOe8aG+5b5qWJ4Lb1g/8Ar+FHGFFgDYXyVFbKqNR8pQwjKT1tRsLZF0ANhfw==
+  dependencies:
+    tsparticles-engine "^2.0.6"
+
+tsparticles-updater-opacity@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/tsparticles-updater-opacity/-/tsparticles-updater-opacity-2.0.6.tgz#0ecddc4f1f05a466aab6dd08c78d46a938723de8"
+  integrity sha512-PscpRLlUb3vrsWOAL6s83CwRcVhc2RCmLbWXr84ZT3izKoRCjyHFkbTU/we343DiDXbMqxyxA8/KKYvEAphIhw==
+  dependencies:
+    tsparticles-engine "^2.0.6"
+
+tsparticles-updater-out-modes@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/tsparticles-updater-out-modes/-/tsparticles-updater-out-modes-2.0.6.tgz#2b489c338d15d040615dbd7b68cf57b6a90edf1e"
+  integrity sha512-c8qG36XNcfY6hMmZQ5EPsV66AmHEwNJEuItiOY/0mmT6hmJHHDF2ps1EECedfRiixm6APk+jTDsARt7iL+IC8g==
+  dependencies:
+    tsparticles-engine "^2.0.6"
+
+tsparticles-updater-size@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/tsparticles-updater-size/-/tsparticles-updater-size-2.0.6.tgz#f329aec60f9d4691d64bceaa7e921a4328bc1212"
+  integrity sha512-VdpY2jxy8HLagLStO7ylfRJR9NoXF52Rd6l/1l7CHMc/2lu38tENDoPkPVSXCvBJPKHK3eoDksMCknZ069tIEA==
+  dependencies:
+    tsparticles-engine "^2.0.6"
 
 tsutils@^3.21.0:
   version "3.21.0"

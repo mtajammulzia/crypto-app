@@ -6,3 +6,5 @@ export * from "./crypto-trade";
 export * from "./loader";
 export * from "./crypto-rates";
 export * from "./assets";
+export * from "./background1";
+export * from "./background2";
